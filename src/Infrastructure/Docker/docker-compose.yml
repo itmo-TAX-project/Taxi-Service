@@ -1,0 +1,11 @@
+﻿services:
+  taxi-db:
+    image: postgres:latest
+    container_name: Taxi-Service-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5300:5432"
+    restart: unless-stopped
