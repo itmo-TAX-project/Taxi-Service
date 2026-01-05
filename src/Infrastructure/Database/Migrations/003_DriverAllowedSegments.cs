@@ -3,7 +3,8 @@
 namespace Infrastructure.Database.Migrations;
 
 [Migration(3, description: "Create driver_allowed_segments table")]
-public class DriverAllowedSegments : Migration {
+public class DriverAllowedSegments : Migration
+{
     public override void Up()
     {
         Execute.Sql("""

@@ -3,7 +3,8 @@
 namespace Infrastructure.Database.Migrations;
 
 [Migration(2, description: "Create vehicles table")]
-public class Vehicles : Migration {
+public class Vehicles : Migration
+{
     public override void Up()
     {
         Execute.Sql("""

@@ -3,7 +3,8 @@
 namespace Infrastructure.Database.Migrations;
 
 [Migration(4, description: "Create driver_status_snapshots table")]
-public class DriverStatusSnapshots : Migration {
+public class DriverStatusSnapshots : Migration
+{
     public override void Up()
     {
         Execute.Sql("""
