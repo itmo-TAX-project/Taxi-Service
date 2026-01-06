@@ -11,7 +11,7 @@ public class DriverAllowedSegments : Migration
                     CREATE TABLE driver_allowed_segments (
                         driver_id UUID NOT NULL REFERENCES drivers(driver_id) ON DELETE CASCADE,
                         segment   VARCHAR(10) NOT NULL CHECK (segment IN ('basic','mid','premium')),
-                        PRIMARY KEY (driver_id, segment)
+                        PRIMARY   KEY (driver_id, segment)
                     );
                     """);
     }
