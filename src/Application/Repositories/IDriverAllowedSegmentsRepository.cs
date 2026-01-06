@@ -5,14 +5,14 @@ namespace Application.Repositories;
 public interface IDriverAllowedSegmentsRepository
 {
     Task AddDriverSegmentsAsync(
-        (Guid DriverId, VehicleSegment Segment) allowedSegments,
+        (long DriverId, VehicleSegment Segment) allowedSegments,
         CancellationToken ct);
 
-    Task RemoveDriverSegmentsAsync(Guid driverId, CancellationToken ct);
+    Task RemoveDriverSegmentsAsync(long driverId, CancellationToken ct);
 
-    Task RemoveDriverSegmentAsync((Guid DriverId, VehicleSegment Segment) segments, CancellationToken ct);
+    Task RemoveDriverSegmentAsync((long DriverId, VehicleSegment Segment) segments, CancellationToken ct);
 
     Task<IEnumerable<VehicleSegment>> GetDriverAllowedSegmentsAsync(
-        Guid driverId,
+        long driverId,
         CancellationToken ct);
 }

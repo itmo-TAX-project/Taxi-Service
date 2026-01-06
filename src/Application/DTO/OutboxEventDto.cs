@@ -2,7 +2,7 @@
 
 public sealed class OutboxEventDto
 {
-    public Guid EventId { get; init; }
+    public long EventId { get; init; }
 
     public string EventType { get; init; } = string.Empty;
 

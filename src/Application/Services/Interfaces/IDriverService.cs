@@ -11,6 +11,6 @@ public interface IDriverService
         CancellationToken ct);
 
     Task<DriverDto?> GetDriverAsync(
-        Guid accountId,
+        long accountId,
         CancellationToken ct);
 }

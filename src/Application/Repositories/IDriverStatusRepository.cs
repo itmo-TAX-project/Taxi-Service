@@ -9,6 +9,6 @@ public interface IDriverStatusRepository
         CancellationToken ct);
 
     Task<DriverStatusDto?> GetLatestAsync(
-        Guid driverId,
+        long driverId,
         CancellationToken ct);
 }

@@ -9,6 +9,6 @@ public interface IVehicleRepository
         CancellationToken ct);
 
     Task<IEnumerable<VehicleDto>> GetByDriverAsync(
-        Guid driverId,
+        long driverId,
         CancellationToken ct);
 }

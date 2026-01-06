@@ -3,6 +3,6 @@
 public interface IAccountDeleteService
 {
     Task HandleAccountDeletedAsync(
-        Guid accountId,
+        long accountId,
         CancellationToken ct);
 }

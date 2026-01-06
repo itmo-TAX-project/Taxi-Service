@@ -9,6 +9,6 @@ public interface IDriverStatusService
         CancellationToken ct);
 
     Task<bool> ValidateDriverActiveAsync(
-        Guid driverId,
+        long driverId,
         CancellationToken ct);
 }

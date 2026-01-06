@@ -2,15 +2,15 @@
 
 public class DriverDto
 {
-    public Guid DriverId { get; init; }
+    public long DriverId { get; init; }
 
-    public Guid AccountId { get; init; }
+    public long AccountId { get; init; }
 
     public string Name { get; init; } = string.Empty;
 
     public string LicenseNumber { get; init; } = string.Empty;
 
-    public Guid? CurrentVehicleId { get; init; }
+    public long? CurrentVehicleId { get; init; }
 
     public decimal Rating { get; init; }
 }

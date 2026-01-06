@@ -9,14 +9,14 @@ public interface IDriverRepository
         CancellationToken ct);
 
     Task<DriverDto?> GetByAccountIdAsync(
-        Guid accountId,
+        long accountId,
         CancellationToken ct);
 
     Task SetCurrentVehicleAsync(
-        (Guid DriverId, Guid VehicleId) updates,
+        (long DriverId, long VehicleId) updates,
         CancellationToken ct);
 
     Task DeleteDriverAsync(
-        Guid driverId,
+        long driverId,
         CancellationToken ct);
 }

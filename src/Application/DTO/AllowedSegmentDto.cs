@@ -4,7 +4,7 @@ namespace Application.DTO;
 
 public class AllowedSegmentDto
 {
-    public Guid DriverId { get; init; }
+    public long DriverId { get; init; }
 
     public VehicleSegment Segment { get; init; }
 }

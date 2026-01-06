@@ -2,9 +2,9 @@
 
 public class VehicleDto
 {
-    public Guid VehicleId { get; init; }
+    public long VehicleId { get; init; }
 
-    public Guid DriverId { get; init; }
+    public long DriverId { get; init; }
 
     public string Segment { get; init; } = string.Empty;
 

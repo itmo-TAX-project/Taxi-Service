@@ -22,7 +22,6 @@ public sealed class DriverStatusService(
 
         var evt = new OutboxEventDto
         {
-            EventId = Guid.NewGuid(),
             EventType = "taxi.driver.status_changed",
             OccurredAt = DateTime.UtcNow,
             Payload = JsonSerializer.Serialize(status),
@@ -34,7 +33,7 @@ public sealed class DriverStatusService(
     }
 
     public async Task<bool> ValidateDriverActiveAsync(
-        Guid driverId,
+        long driverId,
         CancellationToken ct)
     {
         DriverStatusDto? latest = await statusRepository.GetLatestAsync(driverId, ct);

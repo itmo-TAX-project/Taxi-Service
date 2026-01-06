@@ -9,7 +9,7 @@ public class AccountDeleteService(
     IDriverRepository driverRepository) : IAccountDeleteService
 {
     public async Task HandleAccountDeletedAsync(
-        Guid accountId,
+        long accountId,
         CancellationToken ct)
     {
         using TransactionScope transaction = CreateTransactionScope();

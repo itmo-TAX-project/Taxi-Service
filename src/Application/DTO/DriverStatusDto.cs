@@ -4,7 +4,7 @@ namespace Application.DTO;
 
 public class DriverStatusDto
 {
-    public Guid DriverId { get; init; }
+    public long DriverId { get; init; }
 
     public double Latitude { get; init; }
 

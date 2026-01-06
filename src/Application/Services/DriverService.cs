@@ -31,7 +31,6 @@ public sealed class DriverService(
 
         var evt = new OutboxEventDto
         {
-            EventId = Guid.NewGuid(),
             EventType = "taxi.driver.created",
             OccurredAt = DateTime.UtcNow,
             Payload = JsonSerializer.Serialize(new
@@ -47,7 +46,7 @@ public sealed class DriverService(
     }
 
     public Task<DriverDto?> GetDriverAsync(
-        Guid accountId,
+        long accountId,
         CancellationToken ct)
     {
         return driverRepository.GetByAccountIdAsync(accountId, ct);

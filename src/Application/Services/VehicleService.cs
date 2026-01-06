@@ -26,7 +26,6 @@ public sealed class VehicleService(
 
         var evt = new OutboxEventDto
         {
-            EventId = Guid.NewGuid(),
             EventType = "taxi.vehicle.changed",
             OccurredAt = DateTime.UtcNow,
             Payload = JsonSerializer.Serialize(vehicle),
