@@ -1,8 +1,9 @@
-﻿### 3. Taxi-Service — мастер-система для водителей и автомобилей
+﻿### Taxi-Service — мастер-система для водителей и автомобилей
 #### Сущности
 - Driver { driver_id, account_id, name, license_number, current_vehicle_id, allowed_segments, rating }
 - Vehicle { vehicle_id, driver_id, segment (basic/mid/premium), plate, model, capacity }
-- Snapshot: DriverStatus { driver_id, location, availability (searching/idle/busy), ts } (публикуется в Kafka, сказать на защите)
+
+- Snapshot: DriverStatus { driver_id, location, availability (searching/idle/busy), ts } (публикуется в Kafka)
 #### gRPC
 ```
 service TaxiMaster {
