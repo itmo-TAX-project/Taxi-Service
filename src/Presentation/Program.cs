@@ -5,6 +5,8 @@ using Itmo.Dev.Platform.Common.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Presentation.Extensions;
+using Presentation.Grpc.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +24,11 @@ builder.Services.AddPlatform();
 
 builder.Services
     .AddInfrastructure(builder.Configuration)
-    .AddApplication();
+    .AddApplication()
+    .AddPresentation();
 
 WebApplication app = builder.Build();
+
+app.MapGrpcService<GrpcTaxiService>();
 
 app.Run();
