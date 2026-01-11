@@ -4,7 +4,7 @@ namespace Application.Services.Interfaces;
 
 public interface IVehicleService
 {
-    Task UpdateVehicleAsync(
-        VehicleDto vehicle,
-        CancellationToken ct);
+    Task<long> CreateVehicleAsync(VehicleDto vehicle, CancellationToken cancellationToken);
+
+    Task UpdateVehicleAsync(long driverId, long vehicleId, CancellationToken cancellationToken);
 }

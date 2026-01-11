@@ -5,20 +5,17 @@ using System.Transactions;
 
 namespace Application.Services;
 
-public class AccountDeleteService(
-    IDriverRepository driverRepository) : IAccountDeleteService
+public class AccountDeleteService(IDriverRepository driverRepository) : IAccountDeleteService
 {
-    public async Task HandleAccountDeletedAsync(
-        long accountId,
-        CancellationToken ct)
+    public async Task AccountDeleteAsync(long accountId, CancellationToken cancellationToken)
     {
         using TransactionScope transaction = CreateTransactionScope();
 
-        DriverDto? driver = await driverRepository.GetByAccountIdAsync(accountId, ct);
+        DriverDto? driver = await driverRepository.GetByAccountIdAsync(accountId, cancellationToken);
         if (driver is null)
             return;
 
-        await driverRepository.DeleteDriverAsync(driver.DriverId, ct);
+        await driverRepository.DeleteDriverAsync(driver.DriverId, cancellationToken);
 
         transaction.Complete();
     }

@@ -4,11 +4,7 @@ namespace Application.Services.Interfaces;
 
 public interface IDriverStatusService
 {
-    Task UpdateStatusAsync(
-        DriverStatusDto status,
-        CancellationToken ct);
+    Task UpdateStatusAsync(DriverStatusDto status, CancellationToken cancellationToken);
 
-    Task<bool> ValidateDriverActiveAsync(
-        long driverId,
-        CancellationToken ct);
+    Task<bool> ValidateDriverActiveAsync(long driverId, CancellationToken cancellationToken);
 }

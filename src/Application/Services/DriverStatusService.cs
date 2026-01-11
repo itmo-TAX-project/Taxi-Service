@@ -1,42 +1,41 @@
 ﻿using Application.DTO;
 using Application.DTO.Enums;
+using Application.Kafka.Producers.MessageValues;
 using Application.Repositories;
 using Application.Services.Interfaces;
-using System.Text.Json;
+using Itmo.Dev.Platform.Kafka.Extensions;
+using Itmo.Dev.Platform.Kafka.Producer;
 using System.Transactions;
 
 namespace Application.Services;
 
+// TODO: уточнить, что наличие кафки в Application - это норма
 public sealed class DriverStatusService(
     IDriverStatusRepository statusRepository,
-    IOutboxRepository outboxRepository)
+    IKafkaMessageProducer<long, TaxiDriverStatusChangedMessage> kafkaMessageProducer)
     : IDriverStatusService
 {
-    public async Task UpdateStatusAsync(
-        DriverStatusDto status,
-        CancellationToken ct)
+    public async Task UpdateStatusAsync(DriverStatusDto status, CancellationToken cancellationToken)
     {
         using TransactionScope transaction = CreateTransactionScope();
 
-        await statusRepository.AddSnapshotAsync(status, ct);
+        await statusRepository.AddSnapshotAsync(status, cancellationToken);
 
-        var evt = new OutboxEventDto
+        var message = new TaxiDriverStatusChangedMessage
         {
-            EventType = "taxi.driver.status_changed",
-            OccurredAt = DateTime.UtcNow,
-            Payload = JsonSerializer.Serialize(status),
+            DriverId = status.DriverId,
+            Status = status.Availability.ToString(),
         };
 
-        await outboxRepository.AddAsync(evt, ct);
+        var kafkaMessage = new KafkaProducerMessage<long, TaxiDriverStatusChangedMessage>(status.DriverId, message);
 
+        await kafkaMessageProducer.ProduceAsync(kafkaMessage, cancellationToken);
         transaction.Complete();
     }
 
-    public async Task<bool> ValidateDriverActiveAsync(
-        long driverId,
-        CancellationToken ct)
+    public async Task<bool> ValidateDriverActiveAsync(long driverId, CancellationToken cancellationToken)
     {
-        DriverStatusDto? latest = await statusRepository.GetLatestAsync(driverId, ct);
+        DriverStatusDto? latest = await statusRepository.GetLatestAsync(driverId, cancellationToken);
 
         return latest?.Availability is DriverAvailability.Searching;
     }

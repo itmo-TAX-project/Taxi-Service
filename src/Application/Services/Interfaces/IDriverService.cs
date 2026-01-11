@@ -5,12 +5,15 @@ namespace Application.Services.Interfaces;
 
 public interface IDriverService
 {
-    Task CreateDriverAsync(
-        DriverDto driver,
-        IEnumerable<VehicleSegment> allowedSegments,
-        CancellationToken ct);
+    Task CreateDriverAsync(DriverDto driver, IEnumerable<VehicleSegment> allowedSegments, CancellationToken cancellationToken);
 
-    Task<DriverDto?> GetDriverAsync(
+    Task<DriverDto?> GetDriverAsync(long accountId, CancellationToken cancellationToken);
+
+    Task<IEnumerable<VehicleSegment>> GetAllowedSegmentsAsyncByAccountId(
         long accountId,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
+
+    Task<IEnumerable<VehicleSegment>> GetAllowedSegmentsAsyncByDriverId(
+        long driverId,
+        CancellationToken cancellationToken);
 }

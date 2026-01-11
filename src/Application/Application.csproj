@@ -7,6 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Itmo.Dev.Platform.Common" />
+      <PackageReference Include="Itmo.Dev.Platform.Kafka" />
+      <PackageReference Include="Itmo.Dev.Platform.MessagePersistence" />
+      <PackageReference Include="Itmo.Dev.Platform.MessagePersistence.Postgres" />
+      <PackageReference Include="Itmo.Dev.Platform.Persistence.Abstractions" />
+      <PackageReference Include="Itmo.Dev.Platform.Persistence.Postgres" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     </ItemGroup>
 
