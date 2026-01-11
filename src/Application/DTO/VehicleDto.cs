@@ -1,4 +1,6 @@
-﻿namespace Application.DTO;
+﻿using Application.DTO.Enums;
+
+namespace Application.DTO;
 
 public class VehicleDto
 {
@@ -6,7 +8,7 @@ public class VehicleDto
 
     public long DriverId { get; init; }
 
-    public string Segment { get; init; } = string.Empty;
+    public VehicleSegment Segment { get; init; }
 
     public string Plate { get; init; } = string.Empty;
 
