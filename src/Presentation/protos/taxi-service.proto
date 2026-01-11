@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package taxi.master.v1;
+
+option csharp_namespace = "TaxiMaster.Grpc";
+
+
+service TaxiService{
+  rpc GetDriver(GetDriverRequest) returns (GetDriverResponse);
+  rpc ValidateDriverActive(ValidateDriverRequest) returns (ValidateDriverResponse);
+}
+
+enum VehicleSegment {
+  VEHICLE_SEGMENT_UNSPECIFIED = 0;
+  BASIC = 1;
+  MID = 2;
+  PREMIUM = 3;
+}
+
+enum DriverAvailability {
+  DRIVER_AVAILABILITY_UNSPECIFIED = 0;
+  IDLE = 1;
+  SEARCHING = 2;
+  BUSY = 3;
+  OFFLINE = 4;
+}
+
+message GetDriverRequest {
+  int64 account_id = 1;
+}
+
+message GetDriverResponse {
+  Driver driver = 1;
+}
+
+message Driver {
+  int64 driver_id = 1;
+  int64 account_id = 2;
+  string name = 3;
+  string license_number = 4;
+
+  int64 current_vehicle_id = 5;
+  double rating = 6;
+
+  repeated VehicleSegment allowed_segments = 7;
+}
+
+message Vehicle {
+  int64 vehicle_id = 1;
+  int64 driver_id = 2;
+  VehicleSegment segment = 3;
+}
+
+message ValidateDriverRequest {
+  int64 driver_id = 1;
+}
+
+message ValidateDriverResponse {
+  bool is_active = 1;
+}
