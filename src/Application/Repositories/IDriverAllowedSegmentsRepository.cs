@@ -6,13 +6,17 @@ public interface IDriverAllowedSegmentsRepository
 {
     Task AddDriverSegmentsAsync(
         (long DriverId, VehicleSegment Segment) allowedSegments,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
 
-    Task RemoveDriverSegmentsAsync(long driverId, CancellationToken ct);
+    Task RemoveDriverSegmentsAsync(
+        long driverId,
+        CancellationToken cancellationToken);
 
-    Task RemoveDriverSegmentAsync((long DriverId, VehicleSegment Segment) segments, CancellationToken ct);
+    Task RemoveDriverSegmentAsync(
+        (long DriverId, VehicleSegment Segment) segments,
+        CancellationToken cancellationToken);
 
     Task<IEnumerable<VehicleSegment>> GetDriverAllowedSegmentsAsync(
         long driverId,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
 }

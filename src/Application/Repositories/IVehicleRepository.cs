@@ -4,11 +4,11 @@ namespace Application.Repositories;
 
 public interface IVehicleRepository
 {
-    Task AddAsync(
-        IEnumerable<VehicleDto> vehicles,
-        CancellationToken ct);
+    Task<long> AddAsync(
+        VehicleDto vehicle,
+        CancellationToken cancellationToken);
 
     Task<IEnumerable<VehicleDto>> GetByDriverAsync(
         long driverId,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
 }

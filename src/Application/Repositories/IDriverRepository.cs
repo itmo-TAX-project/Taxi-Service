@@ -4,19 +4,19 @@ namespace Application.Repositories;
 
 public interface IDriverRepository
 {
-    Task CreateAsync(
+    Task<long> CreateAsync(
         DriverDto drivers,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
 
     Task<DriverDto?> GetByAccountIdAsync(
         long accountId,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
 
     Task SetCurrentVehicleAsync(
         (long DriverId, long VehicleId) updates,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
 
     Task DeleteDriverAsync(
         long driverId,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
 }

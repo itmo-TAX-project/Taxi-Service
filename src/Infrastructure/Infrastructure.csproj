@@ -9,15 +9,21 @@
 
     <ItemGroup>
       <Folder Include="Docker\" />
-      <Folder Include="Extencions\" />
-      <Folder Include="Repositories\" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="FluentMigrator" />
       <PackageReference Include="FluentMigrator.Runner" />
+      <PackageReference Include="Itmo.Dev.Platform.Kafka" />
+      <PackageReference Include="Itmo.Dev.Platform.MessagePersistence" />
+      <PackageReference Include="Itmo.Dev.Platform.MessagePersistence.Postgres" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
       <PackageReference Include="Microsoft.Extensions.Hosting" />
+      <PackageReference Include="Npgsql" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Application\Application.csproj" />
     </ItemGroup>
 
 </Project>

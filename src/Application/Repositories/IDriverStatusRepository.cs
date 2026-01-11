@@ -5,10 +5,10 @@ namespace Application.Repositories;
 public interface IDriverStatusRepository
 {
     Task AddSnapshotAsync(
-        DriverStatusDto snapshots,
-        CancellationToken ct);
+        DriverStatusDto snapshot,
+        CancellationToken cancellationToken);
 
     Task<DriverStatusDto?> GetLatestAsync(
         long driverId,
-        CancellationToken ct);
+        CancellationToken cancellationToken);
 }
