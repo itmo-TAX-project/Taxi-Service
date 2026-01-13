@@ -37,7 +37,6 @@
       <PackageReference Include="Itmo.Dev.Platform.Persistence.Postgres" />
     </ItemGroup>
 
-
     <ItemGroup>
         <None Update="appsettings.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

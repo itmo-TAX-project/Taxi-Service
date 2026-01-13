@@ -10,6 +10,17 @@
       - "5300:5432"
     restart: unless-stopped
 
+  admin-db:
+    image: postgres:latest
+    container_name: Admin-Service-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5500:5432"
+    restart: unless-stopped
+
   zookeeper:
     image: wurstmeister/zookeeper:latest
     restart: unless-stopped
@@ -39,6 +50,10 @@
         taxi_vehicle_change:1:1,
         taxi_vehicle_create:1:1,
         account_deleted:1:1,
+        admin_created:1:1,
+        admin_ban_changed:1:1,
+        admin_refind_status_changed:1:1,
+        admin_create:1:1,
     depends_on:
       - zookeeper
     networks:

@@ -1,7 +1,7 @@
 ﻿using Application.DTO;
 using Application.Services.Interfaces;
 using Grpc.Core;
-using Presentation.Grpc.Mapper;
+using Presentation.Grpc.Mappers;
 using TaxiMaster.Grpc;
 
 namespace Presentation.Grpc.Services;

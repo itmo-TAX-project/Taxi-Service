@@ -24,7 +24,10 @@ public sealed class DriverStatusService(
         var message = new TaxiDriverStatusChangedMessage
         {
             DriverId = status.DriverId,
-            Status = status.Availability.ToString(),
+            Availability = status.Availability,
+            Longitude = status.Longitude,
+            Latitude = status.Latitude,
+            Timestamp = status.Timestamp,
         };
 
         var kafkaMessage = new KafkaProducerMessage<long, TaxiDriverStatusChangedMessage>(status.DriverId, message);

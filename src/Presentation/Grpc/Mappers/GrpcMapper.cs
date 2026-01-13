@@ -1,7 +1,7 @@
 ﻿using Application.DTO;
 using TaxiMaster.Grpc;
 
-namespace Presentation.Grpc.Mapper;
+namespace Presentation.Grpc.Mappers;
 
 public static class GrpcMapper
 {

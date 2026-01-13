@@ -18,7 +18,7 @@ public sealed class DriverRepository(NpgsqlDataSource dataSource) : IDriverRepos
 
         await using NpgsqlConnection connection = await dataSource.OpenConnectionAsync(cancellationToken);
 
-        await using NpgsqlCommand command = new(sql, connection);
+        await using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("account_id", drivers.AccountId);
         command.Parameters.AddWithValue("name", drivers.Name);
         command.Parameters.AddWithValue("license", drivers.LicenseNumber);
@@ -38,7 +38,7 @@ public sealed class DriverRepository(NpgsqlDataSource dataSource) : IDriverRepos
                            """;
 
         await using NpgsqlConnection connection = await dataSource.OpenConnectionAsync(cancellationToken);
-        await using NpgsqlCommand command = new(sql, connection);
+        await using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("account_id", accountId);
 
         await using NpgsqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
@@ -68,7 +68,7 @@ public sealed class DriverRepository(NpgsqlDataSource dataSource) : IDriverRepos
                            """;
 
         await using NpgsqlConnection connection = await dataSource.OpenConnectionAsync(cancellationToken);
-        await using NpgsqlCommand command = new(sql, connection);
+        await using var command = new NpgsqlCommand(sql, connection);
 
         command.Parameters.AddWithValue("driver_id", updates.DriverId);
         command.Parameters.AddWithValue("vehicle_id", updates.VehicleId);
@@ -83,7 +83,7 @@ public sealed class DriverRepository(NpgsqlDataSource dataSource) : IDriverRepos
         const string sql = "delete from drivers where driver_id = @driver_id;";
 
         await using NpgsqlConnection connection = await dataSource.OpenConnectionAsync(cancellationToken);
-        await using NpgsqlCommand command = new(sql, connection);
+        await using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("driver_id", driverId);
 
         await command.ExecuteNonQueryAsync(cancellationToken);

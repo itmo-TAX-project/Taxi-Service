@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package taxi.master.v1;
+package taxi.master;
 
 option csharp_namespace = "TaxiMaster.Grpc";
 
 
-service TaxiService{
+service TaxiService {
   rpc GetDriver(GetDriverRequest) returns (GetDriverResponse);
   rpc ValidateDriverActive(ValidateDriverRequest) returns (ValidateDriverResponse);
 }
