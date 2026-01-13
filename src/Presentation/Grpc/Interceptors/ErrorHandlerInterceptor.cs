@@ -37,7 +37,7 @@ public class ErrorHandlerInterceptor : Interceptor
             UnauthorizedAccessException => StatusCode.PermissionDenied,
             AuthenticationException => StatusCode.Unauthenticated,
             InsufficientMemoryException => StatusCode.ResourceExhausted,
-            NotSupportedException or NotImplementedException => StatusCode.Unimplemented,
+            NotSupportedException => StatusCode.Unimplemented,
             HttpRequestException => StatusCode.Unavailable,
             _ => StatusCode.Internal,
         };
