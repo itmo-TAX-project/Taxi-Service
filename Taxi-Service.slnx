@@ -9,6 +9,7 @@
     <Project Path="src\Application\Application.csproj" Type="Classic C#" />
     <Project Path="src\Infrastructure\Infrastructure.csproj" Type="Classic C#" />
     <Project Path="src\Presentation\Presentation.csproj" Type="Classic C#" />
+    <Project Path="Taxi-Service\Taxi-Service.csproj" Type="Classic C#" />
   </Folder>
   <Folder Name="/tests/" />
 </Solution>

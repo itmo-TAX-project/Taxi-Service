@@ -1,16 +1,18 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Presentation.Grpc.Controllers;
 using Presentation.Grpc.Interceptors;
-using Presentation.Grpc.Services;
 
 namespace Presentation.Extensions;
 
 public static class GrpcPresentationLayerExtensions
 {
-    public static IServiceCollection AddPresentation(this IServiceCollection services)
+    public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<ErrorHandlerInterceptor>();
         services.AddGrpc(options => options.Interceptors.Add<ErrorHandlerInterceptor>());
-        services.AddScoped<GrpcTaxiService>();
+        services.AddScoped<GrpcTaxiController>();
+        services.AddKafka(configuration);
 
         return services;
     }

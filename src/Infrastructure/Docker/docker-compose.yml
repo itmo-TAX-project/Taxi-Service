@@ -21,6 +21,39 @@
       - "5500:5432"
     restart: unless-stopped
 
+  ride-db:
+    image: postgres:latest
+    container_name: Ride-Service-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5600:5432"
+    restart: unless-stopped
+
+  dispatch-db:
+    image: postgres:latest
+    container_name: Dispatch-Service-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5800:5432"
+    restart: unless-stopped
+
+  finance-db:
+    image: postgres:latest
+    container_name: Finance-Service-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5900:5432"
+    restart: unless-stopped
+    
   zookeeper:
     image: wurstmeister/zookeeper:latest
     restart: unless-stopped
@@ -54,6 +87,13 @@
         admin_ban_changed:1:1,
         admin_refind_status_changed:1:1,
         admin_create:1:1,
+        ride_assigned:1:1,
+        ride_cancelled:1:1,
+        ride_completed:1:1,
+        ride_requested:1:1,
+        ride_started:1:1,
+        ride_assignation_failed:1:1,
+        ride_assigned:1:1,
     depends_on:
       - zookeeper
     networks:

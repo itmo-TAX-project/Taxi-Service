@@ -1,6 +1,9 @@
 ﻿using Infrastructure.Database.Migrations;
 using Infrastructure.Database.Options;
 using Infrastructure.Extensions.Plugins;
+using Itmo.Dev.Platform.Common.Extensions;
+using Itmo.Dev.Platform.MessagePersistence;
+using Itmo.Dev.Platform.MessagePersistence.Postgres.Extensions;
 using Itmo.Dev.Platform.Persistence.Abstractions.Extensions;
 using Itmo.Dev.Platform.Persistence.Postgres.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,9 +33,22 @@ public static class DatabaseExtensions
                             connectionOptions.SslMode = options.SslMode;
                         });
                     })
-                    .WithMigrationsFrom(typeof(CreateDrivers).Assembly)
+                    .WithMigrationsFrom(typeof(IAssemblyMarker).Assembly)
                     .WithDataSourcePlugin<DriverStatusMappingPlugin>()
                     .WithDataSourcePlugin<DriverSegmentMappingPlugin>()));
+
+        return services;
+    }
+
+    public static IServiceCollection AddMessagePersistence(this IServiceCollection services)
+    {
+        services.AddUtcDateTimeProvider();
+        services.AddSingleton(new Newtonsoft.Json.JsonSerializerSettings());
+
+        services.AddPlatformMessagePersistence(builder => builder
+            .WithDefaultPublisherOptions("MessagePersistence:Publisher:Default")
+            .UsePostgresPersistence(
+                configurator => configurator.ConfigureOptions("MessagePersistence")));
 
         return services;
     }

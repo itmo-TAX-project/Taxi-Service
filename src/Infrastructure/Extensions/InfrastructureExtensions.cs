@@ -12,7 +12,6 @@ public static class InfrastructureExtensions
         return services
             .AddPostgresPersistence()
             .AddRepositories()
-            .AddMessagePersistence()
-            .AddKafka(configuration);
+            .AddMessagePersistence();
     }
 }

@@ -1,20 +1,29 @@
 ﻿using Application.DTO;
 using Application.DTO.Enums;
-using Application.Kafka.Producers.MessageValues;
+using Application.Ports.ProducersPorts;
+using Application.Ports.ProducersPorts.Events;
 using Application.Repositories;
 using Application.Services.Interfaces;
-using Itmo.Dev.Platform.Kafka.Extensions;
-using Itmo.Dev.Platform.Kafka.Producer;
 using System.Transactions;
 
 namespace Application.Services;
 
-public sealed class DriverService(
-    IDriverRepository driverRepository,
-    IDriverAllowedSegmentsRepository segmentsRepository,
-    IKafkaMessageProducer<long, TaxiDriverCreatedMessage> kafkaMessageProducer)
-    : IDriverService
+public sealed class DriverService : IDriverService
 {
+    private readonly IDriverRepository _driverRepository;
+    private readonly IDriverAllowedSegmentsRepository _segmentsRepository;
+    private readonly IDriverProducer _driverProducer;
+
+    public DriverService(
+        IDriverRepository driverRepository,
+        IDriverAllowedSegmentsRepository segmentsRepository,
+        IDriverProducer driverProducer)
+    {
+        _driverRepository = driverRepository;
+        _segmentsRepository = segmentsRepository;
+        _driverProducer = driverProducer;
+    }
+
     public async Task CreateDriverAsync(
         DriverDto driver,
         IEnumerable<VehicleSegment> allowedSegments,
@@ -22,29 +31,26 @@ public sealed class DriverService(
     {
         using TransactionScope transaction = CreateTransactionScope();
 
-        long driverId = await driverRepository.CreateAsync(driver, cancellationToken);
+        long driverId = await _driverRepository.CreateAsync(driver, cancellationToken);
 
         foreach (VehicleSegment segment in allowedSegments)
         {
-            await segmentsRepository.AddDriverSegmentsAsync((driverId, segment), cancellationToken);
+            await _segmentsRepository.AddDriverSegmentsAsync((driverId, segment), cancellationToken);
         }
 
-        var message = new TaxiDriverCreatedMessage
+        var message = new TaxiDriverCreatedEvent
         {
             DriverId = driverId,
             AccountId = driver.AccountId,
         };
-
-        var kafkaMessage = new KafkaProducerMessage<long, TaxiDriverCreatedMessage>(driver.AccountId, message);
-
-        await kafkaMessageProducer.ProduceAsync(kafkaMessage, cancellationToken);
+        await _driverProducer.ProduceAsync(message, cancellationToken);
 
         transaction.Complete();
     }
 
     public Task<DriverDto?> GetDriverAsync(long accountId, CancellationToken cancellationToken)
     {
-        return driverRepository.GetByAccountIdAsync(accountId, cancellationToken);
+        return _driverRepository.GetByAccountIdAsync(accountId, cancellationToken);
     }
 
     public async Task<IEnumerable<VehicleSegment>> GetAllowedSegmentsAsyncByAccountId(
@@ -53,12 +59,12 @@ public sealed class DriverService(
     {
         using TransactionScope transaction = CreateTransactionScope();
 
-        DriverDto? driver = await driverRepository.GetByAccountIdAsync(accountId, cancellationToken);
+        DriverDto? driver = await _driverRepository.GetByAccountIdAsync(accountId, cancellationToken);
 
         if (driver == null)
             throw new NullReferenceException("Driver not found");
 
-        IEnumerable<VehicleSegment> segments = await segmentsRepository
+        IEnumerable<VehicleSegment> segments = await _segmentsRepository
             .GetDriverAllowedSegmentsAsync(driver.DriverId, cancellationToken);
 
         transaction.Complete();
@@ -72,7 +78,7 @@ public sealed class DriverService(
     {
         using TransactionScope transaction = CreateTransactionScope();
 
-        IEnumerable<VehicleSegment> segments = await segmentsRepository
+        IEnumerable<VehicleSegment> segments = await _segmentsRepository
             .GetDriverAllowedSegmentsAsync(driverId, cancellationToken);
 
         transaction.Complete();

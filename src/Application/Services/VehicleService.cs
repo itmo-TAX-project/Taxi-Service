@@ -1,24 +1,33 @@
 ﻿using Application.DTO;
-using Application.Kafka.Producers.MessageValues;
+using Application.Ports.ProducersPorts;
+using Application.Ports.ProducersPorts.Events;
 using Application.Repositories;
 using Application.Services.Interfaces;
-using Itmo.Dev.Platform.Kafka.Extensions;
-using Itmo.Dev.Platform.Kafka.Producer;
 using System.Transactions;
 
 namespace Application.Services;
 
-public sealed class VehicleService(
-    IVehicleRepository vehicleRepository,
-    IDriverRepository driverRepository,
-    IKafkaMessageProducer<long, TaxiDriverVehicleChangedProducerMessage> kafkaMessageProducer)
-    : IVehicleService
+public sealed class VehicleService : IVehicleService
 {
+    private readonly IVehicleRepository _vehicleRepository;
+    private readonly IDriverRepository _driverRepository;
+    private readonly IDriverProducer _driverProducer;
+
+    public VehicleService(
+        IVehicleRepository vehicleRepository,
+        IDriverRepository driverRepository,
+        IDriverProducer driverProducer)
+    {
+        _vehicleRepository = vehicleRepository;
+        _driverRepository = driverRepository;
+        _driverProducer = driverProducer;
+    }
+
     public async Task<long> CreateVehicleAsync(VehicleDto vehicle, CancellationToken cancellationToken)
     {
         using TransactionScope transaction = CreateTransactionScope();
 
-        long vehicleId = await vehicleRepository.AddAsync(vehicle, cancellationToken);
+        long vehicleId = await _vehicleRepository.AddAsync(vehicle, cancellationToken);
 
         transaction.Complete();
 
@@ -29,24 +38,19 @@ public sealed class VehicleService(
     {
         using TransactionScope transaction = CreateTransactionScope();
 
-        await driverRepository.SetCurrentVehicleAsync((driverId, vehicleId), cancellationToken);
+        await _driverRepository.SetCurrentVehicleAsync((driverId, vehicleId), cancellationToken);
 
-        IEnumerable<VehicleDto> vehicles = await vehicleRepository.GetByDriverAsync(driverId, cancellationToken);
+        IEnumerable<VehicleDto> vehicles = await _vehicleRepository.GetByDriverAsync(driverId, cancellationToken);
 
         VehicleDto vehicleDto = vehicles.First(a => a.VehicleId == vehicleId);
 
-        var message = new TaxiDriverVehicleChangedProducerMessage
+        var message = new TaxiDriverVehicleChangedEvent
         {
             DriverId = vehicleDto.DriverId,
             VehicleId = vehicleDto.VehicleId,
             Segment = vehicleDto.Segment,
         };
-
-        var kafkaMessage = new KafkaProducerMessage<long, TaxiDriverVehicleChangedProducerMessage>(
-            vehicleDto.DriverId,
-            message);
-
-        await kafkaMessageProducer.ProduceAsync(kafkaMessage, cancellationToken);
+        await _driverProducer.ProduceAsync(message, cancellationToken);
 
         transaction.Complete();
     }

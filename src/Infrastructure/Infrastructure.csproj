@@ -14,11 +14,11 @@
     <ItemGroup>
       <PackageReference Include="FluentMigrator" />
       <PackageReference Include="FluentMigrator.Runner" />
-      <PackageReference Include="Itmo.Dev.Platform.Kafka" />
       <PackageReference Include="Itmo.Dev.Platform.MessagePersistence" />
       <PackageReference Include="Itmo.Dev.Platform.MessagePersistence.Postgres" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
       <PackageReference Include="Microsoft.Extensions.Hosting" />
+      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
       <PackageReference Include="Npgsql" />
     </ItemGroup>
 
