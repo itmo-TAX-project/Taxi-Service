@@ -2,7 +2,7 @@
 
 namespace Application.Ports.ProducersPorts.Events;
 
-public class TaxiDriverStatusChangedEvent
+public class TaxiDriverStatusChangedEvent : IEventMessage
 {
     public long DriverId { get; init; }
 
