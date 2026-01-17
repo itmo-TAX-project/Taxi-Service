@@ -92,8 +92,7 @@
         ride.completed:1:1,
         ride.requested:1:1,
         ride.started:1:1,
-        ride.assignation_failed:1:1,
-        ride.assigned:1:1,
+        ride.assignation:1:1,
     depends_on:
       - zookeeper
     networks:
